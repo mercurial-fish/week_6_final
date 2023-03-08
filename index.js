@@ -1,3 +1,11 @@
+class Player {
+    constructor(player) {
+        this.player = player;
+        this.playerHand = [];
+
+    };
+};
+
 class Card {
     constructor (rank, value, suit) {
         this.value = value;
@@ -41,29 +49,85 @@ class Deck {
 
     };
 
-    shuffleCards() {
+    shuffleAndDealCards() {
         console.log("shuffling cards...");
+        //gonna try out the fisher-yates shuffle method
+        //it will go through the array, starting from last to first.
+        //it will take the last element, get a random index between 0 and array.length - 1
+        //and then it will slice that element into the place of the last element
+
+            const shufflingDeck = this.deck.slice();
+            //provides a shallow copy of the array so we don't mutate the original array
+            const doneShuffling = [];
+
+            while (shufflingDeck.length > 0) {
+                const randomIndex = Math.floor(Math.random() * shufflingDeck.length);
+                //math.floor always rounds down and returns largest integer than or equal to
+                //a given number. Math.random provides a random number greater than 0 and less than 1
+                //this will give the random integer and math.floor will make sure it is a whole number
+                doneShuffling.push(shufflingDeck[randomIndex]);
+                shufflingDeck.splice(randomIndex, 1);
+            };
+            console.log(doneShuffling);
+
+            let playerOne = new Player();
+            let playerTwo = new Player();
+        for (let i = 0; i < doneShuffling.length; i++) {
+            if (i < 26) {
+                playerOne.playerHand.push(doneShuffling[i]);
+            } else {
+                playerTwo.playerHand.push(doneShuffling[i]);
+            };
+        };
+        console.log(playerOne.playerHand);
+        console.log(playerTwo.playerHand);
+        console.log(playerOne.playerHand[2].value);
+
+        for (let i = 0; i < playerOne.playerHand.length; i++) {
+             let playerOneResult = 0;
+             let playerTwoResult = 0;
+
+             if (playerOne.playerHand[i].value > playerTwo.playerHand[i].value) {
+                playerOneResult += 1;
+             } else if (playerOne.playerHand[i].value < playerTwo.playerHand[i].value) {
+                playerTwoResult += 1;
+             } else {
+                playerOneResult += 0;
+                playerTwoResult += 0;
+             };
+
+             console.log(`Player One: ${playerOneResult}
+             Player Two: ${playerTwoResult}`);
+
+            //  if (playerOneResult > playerTwoResult) {
+            //     console.log("Player One Wins!!!");
+            //  } else if (playerTwoResult > playerOneResult) {
+            //     console.log("Player Two Wins!!!");
+            //  } else {
+            //     console.log("It's a Tie!!!");
+            //  };
+             };
+
+         };
     };
 
-    dealCards() {
-        //cards will need to be shuffled, then they can be split down the middle
-        //to the two players
-        //they will each get a playerHand array
-    };
-};
+    // dealCards() {
+    //     //cards will need to be shuffled, then they can be split down the middle
+    //     //to the two players
+    //     //they will each get a playerHand array
+    // };
 
-class Player {
-    constructor(playerName) {
-        this.playerHand = [];
-    };
 
-    playHand() {
-        console.log("Playing cards dealt...");
+// I think I need to have something like selectedGenre, where it's pushed
+//to the newly created array of selectedGenre, but two times...
+
         //both players will compare the cards they were dealt
         //the card needs to be drawn and then compared and then a point value assigned
-    }
-}
+ 
 
+let newDeck = new Deck();
+newDeck.createCards();
+newDeck.shuffleAndDealCards();
 
 
 //this needs to be divided by two
