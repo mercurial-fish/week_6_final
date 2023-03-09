@@ -1,5 +1,5 @@
 class Player {
-    constructor(player) {
+    constructor() {
         this.player = player;
         this.playerHand = [];
 
@@ -29,10 +29,6 @@ class Deck {
         this.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
         this.suits = ["Clubs", "Diamonds", "Hearts", "Spades"];
         //these arrays hold the values needed to create the cards
-    };
-
-    createCards() {
-        console.log("creating cards...");
         // for loop to generate a set of cards
         for (let i = 0; i < this.suits.length; i++) {
             console.log(i, "suit: ", this.suits[i]);
@@ -44,12 +40,12 @@ class Deck {
                 let suit = this.suits[i];
                 this.deck.push(new Card(rank, value, suit))
             };
-        }
+        };
         console.log(this.deck); //printing entire deck to console
 
     };
 
-    shuffleAndDealCards() {
+    shuffleCards() {
         console.log("shuffling cards...");
         //gonna try out the fisher-yates shuffle method
         //it will go through the array, starting from last to first.
@@ -58,58 +54,71 @@ class Deck {
 
             const shufflingDeck = this.deck.slice();
             //provides a shallow copy of the array so we don't mutate the original array
-            const doneShuffling = [];
+            let shuffledDeck = [];
 
             while (shufflingDeck.length > 0) {
                 const randomIndex = Math.floor(Math.random() * shufflingDeck.length);
                 //math.floor always rounds down and returns largest integer than or equal to
                 //a given number. Math.random provides a random number greater than 0 and less than 1
                 //this will give the random integer and math.floor will make sure it is a whole number
-                doneShuffling.push(shufflingDeck[randomIndex]);
+                shuffledDeck.push(shufflingDeck[randomIndex]);
                 shufflingDeck.splice(randomIndex, 1);
             };
-            console.log(doneShuffling);
+            shuffledDeck = this.deck;
+            console.log(this.deck);
+        };
 
-            let playerOne = new Player();
-            let playerTwo = new Player();
-        for (let i = 0; i < doneShuffling.length; i++) {
+    dealCards() {
+        let playerOne = new Player();
+        let playerTwo = new Player();
+        for (let i = 0; i < this.deck.length; i++) {
             if (i < 26) {
-                playerOne.playerHand.push(doneShuffling[i]);
+                playerOne.playerHand.push(this.deck[i]);
             } else {
-                playerTwo.playerHand.push(doneShuffling[i]);
+                playerTwo.playerHand.push(this.deck[i]);
             };
         };
         console.log(playerOne.playerHand);
         console.log(playerTwo.playerHand);
-        console.log(playerOne.playerHand[2].value);
-
+    };
+    playWar() {
+        let playerOneResult = 0;
+        let playerTwoResult = 0;
         for (let i = 0; i < playerOne.playerHand.length; i++) {
-             let playerOneResult = 0;
-             let playerTwoResult = 0;
 
-             if (playerOne.playerHand[i].value > playerTwo.playerHand[i].value) {
-                playerOneResult += 1;
-             } else if (playerOne.playerHand[i].value < playerTwo.playerHand[i].value) {
-                playerTwoResult += 1;
-             } else {
-                playerOneResult += 0;
-                playerTwoResult += 0;
-             };
+            if (playerOne.playerHand[i].value > playerTwo.playerHand[i].value) {
+               playerOneResult += 1;
+            } else if (playerOne.playerHand[i].value < playerTwo.playerHand[i].value) {
+               playerTwoResult += 1;
+            } else {
+               playerOneResult += 0;
+               playerTwoResult += 0;
+            };
 
-             console.log(`Player One: ${playerOneResult}
-             Player Two: ${playerTwoResult}`);
+    };
 
-            //  if (playerOneResult > playerTwoResult) {
-            //     console.log("Player One Wins!!!");
-            //  } else if (playerTwoResult > playerOneResult) {
-            //     console.log("Player Two Wins!!!");
-            //  } else {
-            //     console.log("It's a Tie!!!");
-            //  };
+    console.log(`Player One: ${playerOneResult}
+            Player Two: ${playerTwoResult}`);
+
+    if (playerOneResult > playerTwoResult) {
+        console.log("Player One Wins!!!");
+     } else if (playerTwoResult > playerOneResult) {
+        console.log("Player Two Wins!!!");
+     } else {
+        console.log("It's a Tie!!!");
+     };
+
+            
+
+        // error: player is not defined
+
+            
+            // when I ran the above code that is in the comments, it printed out
+            // after every iteration
              };
 
          };
-    };
+
 
     // dealCards() {
     //     //cards will need to be shuffled, then they can be split down the middle
@@ -126,8 +135,9 @@ class Deck {
  
 
 let newDeck = new Deck();
-newDeck.createCards();
-newDeck.shuffleAndDealCards();
+newDeck.shuffleCards();
+newDeck.dealCards();
+newDeck.playWar();
 
 
 //this needs to be divided by two
