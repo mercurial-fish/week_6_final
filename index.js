@@ -6,13 +6,13 @@ class Player {
 };
 
 class Card {
-    constructor (rank, value, suit) {
+    constructor (face, value, suit) {
         this.value = value;
-        this.rank = rank;
+        this.face = face;
         this.suit = suit;
     }
     describe() {
-        return `This card is the ${this.value} of ${this.suit}`;
+        return `This card is the ${this.face} of ${this.suit}`;
     }
 
 };
@@ -23,7 +23,7 @@ class Deck {
 
         this.deck = [];
         //this array will take all of the cards created by the below values
-        this.rank = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
+        this.face = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
         this.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
         this.suits = ["Clubs", "Diamonds", "Hearts", "Spades"];
         this.playerOne = new Player();
@@ -37,12 +37,12 @@ class Deck {
         for (let i = 0; i < this.suits.length; i++) {
             console.log(i, "suit: ", this.suits[i]);
             // looping 13 times
-            for (let j = 0; j < this.rank.length; j++) {
-                console.log(j, "rank: ", this.rank[j]);
-                let rank = this.rank[j];
+            for (let j = 0; j < this.face.length; j++) {
+                console.log(j, "face: ", this.face[j]);
+                let face = this.face[j];
                 let value = this.value[j];
                 let suit = this.suits[i];
-                this.deck.push(new Card(rank, value, suit))
+                this.deck.push(new Card(face, value, suit))
             };
         };
         console.log(this.deck); //printing entire deck to console
@@ -103,21 +103,28 @@ class Deck {
     };
 
     console.log(`Player One: ${playerOneResult}
-                 Player Two: ${playerTwoResult}`);
+                 Player Two: ${playerTwoResult}`);//prints score to console
+
+    alert(`    Player One: ${playerOneResult} 
+    Player Two: ${playerTwoResult}`); //sends alert to browser of score
+    alert("and the winner is....*drum roll*");
 
     if (playerOneResult > playerTwoResult) {
         console.log("Player One Wins!!!");
+        alert("Player One!!!")
      } else if (playerTwoResult > playerOneResult) {
         console.log("Player Two Wins!!!");
+        alert("Player Two!!!")
      } else {
         console.log("It's a Tie!!!");
-     };
+        alert("No one! It's a Tie! BOOOOO!!!!")
+     };//this boolean is used to print the winner of the game to the console and send an alert to the browser
     };
 
          };
  
-let newDeck = new Deck();
-newDeck.createCards();
-newDeck.shuffleCards();
-newDeck.dealCards();
-newDeck.playWar();
+let newDeck = new Deck();//calls on Deck class
+newDeck.createCards();//calls on createCards method that should create the cards for the deck
+newDeck.shuffleCards();//method that shuffles cards in new deck created and then accepts that shuffled deck as the deck for the class
+newDeck.dealCards();//splits the cards between the two players
+newDeck.playWar();//compares the cards, totals the score and prints to console
