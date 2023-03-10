@@ -1,6 +1,5 @@
 class Player {
     constructor() {
-        this.player = player;
         this.playerHand = [];
 
     };
@@ -18,18 +17,23 @@ class Card {
 
 };
 
-//26 need to go to each player
-//suits and numbers must be defined
 
 class Deck {
     constructor() {
+
         this.deck = [];
         //this array will take all of the cards created by the below values
         this.rank = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
         this.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
         this.suits = ["Clubs", "Diamonds", "Hearts", "Spades"];
+        this.playerOne = new Player();
+        this.playerTwo = new Player();
+
+
+    };
         //these arrays hold the values needed to create the cards
         // for loop to generate a set of cards
+    createCards() {
         for (let i = 0; i < this.suits.length; i++) {
             console.log(i, "suit: ", this.suits[i]);
             // looping 13 times
@@ -42,8 +46,8 @@ class Deck {
             };
         };
         console.log(this.deck); //printing entire deck to console
-
     };
+
 
     shuffleCards() {
         console.log("shuffling cards...");
@@ -61,34 +65,35 @@ class Deck {
                 //math.floor always rounds down and returns largest integer than or equal to
                 //a given number. Math.random provides a random number greater than 0 and less than 1
                 //this will give the random integer and math.floor will make sure it is a whole number
-                shuffledDeck.push(shufflingDeck[randomIndex]);
-                shufflingDeck.splice(randomIndex, 1);
+                const removedCard = shufflingDeck.splice(randomIndex, 1)[0];
+                shuffledDeck.push(removedCard);
             };
-            shuffledDeck = this.deck;
+            this.deck = shuffledDeck;
+            //this should ensure that I can use the newly shuffled deck in other methods;
             console.log(this.deck);
         };
 
     dealCards() {
-        let playerOne = new Player();
-        let playerTwo = new Player();
+       console.log("dealing cards...");
         for (let i = 0; i < this.deck.length; i++) {
             if (i < 26) {
-                playerOne.playerHand.push(this.deck[i]);
+                this.playerOne.playerHand.push(this.deck[i]);
             } else {
-                playerTwo.playerHand.push(this.deck[i]);
+                this.playerTwo.playerHand.push(this.deck[i]);
             };
         };
-        console.log(playerOne.playerHand);
-        console.log(playerTwo.playerHand);
+
     };
+
     playWar() {
+        console.log("playing War...");
         let playerOneResult = 0;
         let playerTwoResult = 0;
-        for (let i = 0; i < playerOne.playerHand.length; i++) {
+        for (let i = 0; i < this.playerOne.playerHand.length; i++) {
 
-            if (playerOne.playerHand[i].value > playerTwo.playerHand[i].value) {
+            if (this.playerOne.playerHand[i].value > this.playerTwo.playerHand[i].value) {
                playerOneResult += 1;
-            } else if (playerOne.playerHand[i].value < playerTwo.playerHand[i].value) {
+            } else if (this.playerOne.playerHand[i].value < this.playerTwo.playerHand[i].value) {
                playerTwoResult += 1;
             } else {
                playerOneResult += 0;
@@ -98,7 +103,7 @@ class Deck {
     };
 
     console.log(`Player One: ${playerOneResult}
-            Player Two: ${playerTwoResult}`);
+                 Player Two: ${playerTwoResult}`);
 
     if (playerOneResult > playerTwoResult) {
         console.log("Player One Wins!!!");
@@ -107,41 +112,12 @@ class Deck {
      } else {
         console.log("It's a Tie!!!");
      };
-
-            
-
-        // error: player is not defined
-
-            
-            // when I ran the above code that is in the comments, it printed out
-            // after every iteration
-             };
+    };
 
          };
-
-
-    // dealCards() {
-    //     //cards will need to be shuffled, then they can be split down the middle
-    //     //to the two players
-    //     //they will each get a playerHand array
-    // };
-
-
-// I think I need to have something like selectedGenre, where it's pushed
-//to the newly created array of selectedGenre, but two times...
-
-        //both players will compare the cards they were dealt
-        //the card needs to be drawn and then compared and then a point value assigned
  
-
 let newDeck = new Deck();
+newDeck.createCards();
 newDeck.shuffleCards();
 newDeck.dealCards();
 newDeck.playWar();
-
-
-//this needs to be divided by two
-
-
-//each player will have 26 cards
-// value 1 - 13; suits are hearts, diamonds, spades and clubs
