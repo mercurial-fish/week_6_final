@@ -17,3 +17,13 @@ describe("Create Cards", () => {
     })
 });
 
+describe("Deal Cards", () => {
+    it("#Should deal the cards to the players", () => {
+        testDeck = new Deck();
+        testDeck.createCards();
+        testDeck.shuffleCards();
+        testDeck.dealCards();
+
+        expect(testDeck.playerOne.playerHand.length).to.equal(26);
+    });
+})
